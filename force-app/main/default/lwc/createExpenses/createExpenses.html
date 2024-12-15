@@ -3,7 +3,27 @@
 	object-api-name={expenseObject} onsuccess={handleSuccess}>
 		<lightning-messages></lightning-messages>
 		<div class="slds-grid">
-			<div class="slds-col slds-size_of_1-of-2"></div>
+			<div class="slds-col slds-size_of_1-of-3">
+				<lightning-input-field
+				field-name={expenseNameField}
+				type="text"
+				required
+				></lightning-input-field>
+				<lightning-input-field
+				field-name={expenseAmountField}
+				required
+				>
+				</lightning-input-field>
+				<lightning-input-field
+				field-name={dateOfExpenseField}
+				required
+				></lightning-input-field>
+			</div>
+			<div class="slds-col slds-size_of_1-of-1">
+				<lightning-input-field
+				field-name={descriptionField}
+				></lightning-input-field>
+			</div>
 		</div>
 	</lightning-record-edit-form>
 </template>
