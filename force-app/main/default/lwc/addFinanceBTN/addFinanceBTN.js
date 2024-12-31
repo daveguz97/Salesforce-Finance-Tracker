@@ -1,11 +1,30 @@
 import { LightningElement, api } from "lwc";
 import CreateIncome from "c/createIncome";
 import CreateExpenses from "c/createExpenses";
+import CreateBudget from "c/createBudget";
 
 const MODAL_CONFIG = {
     size: "large",
     description: "Used to provide income or expenses"
-}
+};
+
+const BUTTON_CONFIG = {
+    income: {
+        text: "Add Income",
+        brand: "success",
+        icon: "custom:custom41"
+    },
+    expenses: {
+        text: "Add Expense",
+        brand: "destructive",
+        icon: "custom:custom40"
+    },
+    budget: {
+        text: "Create a Budget",
+        brand: "brand",
+        icon: "custom:custom17"
+    }
+};
 
 export default class AddFinanceBTN extends LightningElement {
     @api type;
@@ -18,40 +37,37 @@ export default class AddFinanceBTN extends LightningElement {
     }
 
     handleClick() {
-        if (this.type.toLowerCase() === "income") {
-            this.createIncome();
-        } else if (this.type.toLowerCase() === "expenses") {
-            this.createExpenses();
+        switch (this.type.toLowerCase()) {
+            case "income":
+                this.createIncome();
+                break;
+            case "expenses":
+                this.createExpenses();
+                break;
+            case "budget":
+                this.createBudget();
+                break;
         }
     }
 
     buttonAttributes() {
-        if (this.type) {
-            if (this.type === "Income") {
-                this.btnText = "Add Income";
-                this.brand = "success";
-                this.icon = "custom:custom17"; // Money Bag
-            } else {
-                this.btnText = "Add Expense";
-                this.brand = "destructive";
-                this.icon = "custom:custom40"; // Credit Card
-            }
+        const config = BUTTON_CONFIG[this.type.toLowerCase()];
+        if (config) {
+            this.btnText = config.text;
+            this.brand = config.brand;
+            this.icon = config.icon;
         }
     }
-    
+
     async createIncome() {
-        const result = await CreateIncome.open(MODAL_CONFIG);
-        // if modal closed with X button, promise returns result = 'undefined'
-        // if modal closed with OK button, promise returns result = 'okay'
-        console.log(result);
+        await CreateIncome.open(MODAL_CONFIG);
     }
-    
+
     async createExpenses() {
-        const result = await CreateExpenses.open(MODAL_CONFIG);
-        // if modal closed with X button, promise returns result = 'undefined'
-        // if modal closed with OK button, promise returns result = 'okay'
-        console.log(result);
+        await CreateExpenses.open(MODAL_CONFIG);
     }
 
-
+    async createBudget() {
+        await CreateBudget.open(MODAL_CONFIG);
+    }
 }
